@@ -21,6 +21,13 @@ final class ImageLoader {
             return
         }
         
+        let key = stringUrl as NSString
+        if let data = imageDataCache.object(forKey: key) {
+            print("Image loaded from cache")
+            completion(.success(data as Data))
+            return
+        }
+        
         guard let urlRequest = request(from: stringUrl, method: .get)  else {
             completion(.failure(APIServiceError.failedToCreateRequest))
             return
@@ -34,6 +41,7 @@ final class ImageLoader {
             
             let value = data as NSData
             let key = NSString(string: stringUrl)
+            print("Image loaded from network")
             self?.imageDataCache.setObject(value, forKey: key)
             completion(.success(data))
         }

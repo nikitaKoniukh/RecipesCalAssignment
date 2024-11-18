@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class RecipeTableViewCellViewModel {
-    let recipe: Recipe?
+    private let recipe: Recipe?
     
     init(recipe: Recipe?) {
         self.recipe = recipe

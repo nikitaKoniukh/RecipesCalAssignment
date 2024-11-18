@@ -64,4 +64,17 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell?.configure(with: viewModel)
         return cell ?? UITableViewCell()
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+        guard let detailViewController = storyboard.instantiateInitialViewController() as? DetailViewController else {
+            return
+        }
+        
+        let recipe = viewModel.recipes?[indexPath.row]
+        let viewModel = DetailViewModel(recipe: recipe)
+        detailViewController.viewModel = viewModel
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
 }
