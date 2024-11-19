@@ -23,3 +23,13 @@ struct Recipe: Codable {
     let time: String?
     let country: String?
 }
+
+extension Recipe {
+    func toData() -> Data? {
+        return try? JSONEncoder().encode(self)
+    }
+
+    static func fromData(_ data: Data) -> Recipe? {
+        return try? JSONDecoder().decode(Recipe.self, from: data)
+    }
+}

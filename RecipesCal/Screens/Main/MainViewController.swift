@@ -39,9 +39,28 @@ final class MainViewController: UIViewController {
             tableView.register($0.nib, forCellReuseIdentifier: $0.identifier)
         }
     }
+    
+    private func navigateToDetailScreen(with data: Data) {
+        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
+        guard let detailViewController = storyboard.instantiateInitialViewController() as? DetailViewController else {
+            return
+        }
+        
+        let viewModel = DetailViewModel(encryptedRecipeData: data)
+        detailViewController.viewModel = viewModel
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
 }
 
 extension MainViewController: MainViewModelDelegate {
+    func encryptionFailed(with error: any Error) {
+        
+    }
+    
+    func encryptionFinished(with encryptedData: Data) {
+        navigateToDetailScreen(with: encryptedData)
+    }
+    
     
     func recipesFetched() {
         tableView.reloadData()
@@ -67,14 +86,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-        guard let detailViewController = storyboard.instantiateInitialViewController() as? DetailViewController else {
-            return
-        }
         
-        let recipe = viewModel.recipes?[indexPath.row]
-        let viewModel = DetailViewModel(recipe: recipe)
-        detailViewController.viewModel = viewModel
-        navigationController?.pushViewController(detailViewController, animated: true)
+        if let recipe = viewModel.recipes?[indexPath.row] {
+            viewModel.encrypt(recipe)
+        }
     }
 }

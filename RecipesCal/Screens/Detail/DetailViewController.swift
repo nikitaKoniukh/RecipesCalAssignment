@@ -15,12 +15,15 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var caloriesLabel: UILabel!
     @IBOutlet weak var carbsLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-
+    @IBOutlet weak var curtainView: UIView!
+    
     var viewModel: DetailViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupData()
+        curtainView.isHidden = false
+        viewModel?.delegate = self
+        viewModel?.getDecryptedRecipe()
     }
     
     private func setupData() {
@@ -32,5 +35,16 @@ class DetailViewController: UIViewController {
         viewModel?.setImage(completion: { [weak self] image in
             self?.thumbnailImageView.image = image
         })
+    }
+}
+
+extension DetailViewController: DetailViewModelProtocol {
+    func decryptionSuccess() {
+        setupData()
+        curtainView.isHidden = true
+    }
+    
+    func decryptionFailure() {
+        navigationController?.popViewController(animated: true)
     }
 }

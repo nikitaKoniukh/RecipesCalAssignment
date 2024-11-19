@@ -7,11 +7,18 @@
 
 import UIKit
 
+protocol DetailViewModelProtocol: AnyObject {
+    func decryptionSuccess()
+    func decryptionFailure()
+}
+
 final class DetailViewModel {
-   private let recipe: Recipe?
+    var encryptedRecipeData: Data?
+    var recipe: Recipe?
+    weak var delegate: DetailViewModelProtocol?
     
-    init(recipe: Recipe?) {
-        self.recipe = recipe
+    init(encryptedRecipeData: Data?) {
+        self.encryptedRecipeData = encryptedRecipeData
     }
     
     var nameString: String? {
@@ -67,5 +74,30 @@ final class DetailViewModel {
                 }
             }
         })
+    }
+    
+    func getDecryptedRecipe() {
+        guard let encryptedData = encryptedRecipeData else {
+            return
+        }
+        
+        let cryptoManager = RecipeCryptoManager()
+        cryptoManager.getSymmetricKeyWithBiometricsOrPassword(data: encryptedData,
+                                                              prompt: "Authenticate to access your recipes",
+                                                              fallbackPrompt: "Enter your passcode") { [weak self] result in
+            switch result {
+            case .success(let decryptedRecipe):
+                DispatchQueue.main.async(execute: { [weak self] in
+                    self?.recipe = decryptedRecipe
+                    self?.delegate?.decryptionSuccess()
+                })
+                
+            case .failure(let error):
+                print("Error during encryption or decryption: \(error)")
+                DispatchQueue.main.async(execute: { [weak self] in
+                    self?.delegate?.decryptionFailure()
+                })
+            }
+        }
     }
 }

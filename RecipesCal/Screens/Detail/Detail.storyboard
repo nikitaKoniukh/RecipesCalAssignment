@@ -52,12 +52,28 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IcO-h2-3Qi">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="44U-Om-Moa">
+                                        <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="44U-Om-Moa" firstAttribute="centerX" secondItem="IcO-h2-3Qi" secondAttribute="centerX" id="9i5-Sg-wuu"/>
+                                    <constraint firstItem="44U-Om-Moa" firstAttribute="centerY" secondItem="IcO-h2-3Qi" secondAttribute="centerY" id="xEE-nW-x3m"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="IcO-h2-3Qi" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="1l5-DO-lRu"/>
                             <constraint firstItem="SPn-FC-k4i" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="2Vd-Ti-2GR"/>
+                            <constraint firstAttribute="bottom" secondItem="IcO-h2-3Qi" secondAttribute="bottom" id="7de-Ka-tBG"/>
                             <constraint firstItem="br5-rj-sns" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="7oG-zf-kmV"/>
+                            <constraint firstItem="IcO-h2-3Qi" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="8sq-DW-wll"/>
                             <constraint firstItem="8Gf-LK-ek1" firstAttribute="top" secondItem="s7f-hm-ZSf" secondAttribute="bottom" constant="8" id="IXw-Vr-tKq"/>
                             <constraint firstItem="f2L-yc-RLF" firstAttribute="top" secondItem="8Gf-LK-ek1" secondAttribute="bottom" constant="8" id="L8D-pe-myh"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="f2L-yc-RLF" secondAttribute="trailing" constant="16" id="Ngs-wo-7wq"/>
@@ -66,6 +82,7 @@
                             <constraint firstItem="SPn-FC-k4i" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="U1i-A5-B9L"/>
                             <constraint firstItem="s7f-hm-ZSf" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="UdS-7i-MBh"/>
                             <constraint firstItem="nnw-t6-N76" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="Z3g-ir-lbb"/>
+                            <constraint firstItem="IcO-h2-3Qi" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="bhQ-eP-IpE"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="s7f-hm-ZSf" secondAttribute="trailing" constant="16" id="ekX-BJ-GY1"/>
                             <constraint firstItem="f2L-yc-RLF" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="gOI-er-CwF"/>
                             <constraint firstItem="br5-rj-sns" firstAttribute="top" secondItem="f2L-yc-RLF" secondAttribute="bottom" constant="16" id="gY3-9p-qqr"/>
@@ -80,6 +97,7 @@
                     <connections>
                         <outlet property="caloriesLabel" destination="8Gf-LK-ek1" id="I4u-rF-Jek"/>
                         <outlet property="carbsLabel" destination="f2L-yc-RLF" id="fIw-Gi-eau"/>
+                        <outlet property="curtainView" destination="IcO-h2-3Qi" id="5UC-se-FTP"/>
                         <outlet property="descriptionLabel" destination="br5-rj-sns" id="iPM-Y5-aWU"/>
                         <outlet property="fatsLabel" destination="s7f-hm-ZSf" id="d8f-GE-DR0"/>
                         <outlet property="nameLabel" destination="nnw-t6-N76" id="FDF-vE-NsN"/>
