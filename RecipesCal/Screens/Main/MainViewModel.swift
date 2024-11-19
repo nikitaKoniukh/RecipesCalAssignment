@@ -9,8 +9,8 @@ import Foundation
 
 protocol MainViewModelDelegate: AnyObject {
     func recipesFetched()
-    func recipesFetchingFailed(with error: Error)
-    func encryptionFailed(with error: Error)
+    func recipesFetchingFailed(with error: RecipeError)
+    func encryptionFailed(with error: RecipeError)
     func encryptionFinished(with encryptedData: Data)
 }
 
@@ -41,7 +41,7 @@ final class MainViewModel {
             delegate?.encryptionFinished(with: encryptedData)
         } catch {
             print("Error during encryption or decryption: \(error)")
-            delegate?.encryptionFailed(with: error)
+            delegate?.encryptionFailed(with: RecipeError.decryptionError)
         }
     }
 }

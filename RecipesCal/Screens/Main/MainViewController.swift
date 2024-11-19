@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -53,8 +53,8 @@ final class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainViewModelDelegate {
-    func encryptionFailed(with error: any Error) {
-        
+    func encryptionFailed(with error: RecipeError) {
+        showErrorPopup(recipeError: error)
     }
     
     func encryptionFinished(with encryptedData: Data) {
@@ -66,8 +66,8 @@ extension MainViewController: MainViewModelDelegate {
         tableView.reloadData()
     }
     
-    func recipesFetchingFailed(with error: any Error) {
-        
+    func recipesFetchingFailed(with error: RecipeError) {
+        showErrorPopup(recipeError: error)
     }
 }
 
@@ -92,3 +92,5 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+
+

@@ -15,7 +15,7 @@ final class ImageLoader {
     
     private init() { }
     
-    func getImage(_ stringUrl: String?, completion: @escaping (Result<Data, Error>) -> Void) {
+    func getImage(_ stringUrl: String?, completion: @escaping (Result<Data, RecipeError>) -> Void) {
         
         guard let stringUrl else {
             return
@@ -29,13 +29,15 @@ final class ImageLoader {
         }
         
         guard let urlRequest = request(from: stringUrl, method: .get)  else {
-            completion(.failure(APIServiceError.failedToCreateRequest))
+            completion(.failure(RecipeError.failedToCreateRequest))
             return
         }
         
         task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
-            guard let data = data, error == nil, (response as? HTTPURLResponse)?.statusCode == 200 else {
-                completion(.failure(APIServiceError.failedToCreateRequest))
+            guard let data = data,
+                    error == nil,
+                    (response as? HTTPURLResponse)?.statusCode == 200 else {
+                completion(.failure(RecipeError.networkError(error: error!)))
                 return
             }
             

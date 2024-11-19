@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: BaseViewController {
     
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -45,6 +45,7 @@ extension DetailViewController: DetailViewModelProtocol {
     }
     
     func decryptionFailure() {
+        showErrorPopup(recipeError: .decryptionError)
         navigationController?.popViewController(animated: true)
     }
 }

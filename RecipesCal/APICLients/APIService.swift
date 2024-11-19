@@ -14,24 +14,32 @@ final class APIService {
     
     private init(){}
     
-    public func execute<T: Codable>(_ stringUrl: String?, method: HttpMethod = .get, expecting type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    public func execute<T: Codable>(_ stringUrl: String?, method: HttpMethod = .get, expecting type: T.Type, completion: @escaping (Result<T, RecipeError>) -> Void) {
         
         guard let request = request(from: stringUrl, method: method) else {
-            completion(.failure(APIServiceError.failedToCreateRequest))
+            completion(.failure(RecipeError.failedToCreateRequest))
             return
         }
         
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(.failure(error ?? APIServiceError.failedToGetData))
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            if (response as? HTTPURLResponse)?.statusCode != 200 {
+                let statusCodeString = String((response as? HTTPURLResponse)?.statusCode ?? 0)
+                completion(.failure(RecipeError.badResponse(message: "Status code \(statusCodeString)")))
+                return
+            }
+            
+            guard let data = data,
+                    error == nil else {
+                completion(.failure(RecipeError.networkError(error: error!)))
                 return
             }
             
             do {
                 let result = try JSONDecoder().decode(type.self, from: data)
                 completion(.success(result))
-            } catch {
-                completion(.failure(error))
+            } catch(let error) {
+                completion(.failure(RecipeError.jsonDecodingError(error: error)))
             }
         }
         
